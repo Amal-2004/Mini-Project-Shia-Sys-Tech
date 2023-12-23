@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/project list design.css' %}">
+    
+  <title>Project List</title>
+  <style>
+    *
+{
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body
+{
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+li
+{
+    list-style: none;
+}
+li a {
+    text-decoration: none;
+    color: #fff;
+    font-size:22px;
+    font-weight: normal;
+}
+
+li a:hover {
+    text-decoration: none;
+    color: rgb(111, 116, 100);
+}header
+{
+    height: 100px;
+    position: relative;
+    padding: .05px 2rem;
+    background-color: black;
+}
+.navbar {
+    width: 100%;
+    height: 60%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding-left:20px;
+    
+}
+.navbar .logo {
+    padding: 30px ;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.navbar .toggle_btn {
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: left;
+    display: none;
+    margin-right: auto; 
+}
+.navbar .links
+{
+    display: flex;
+    
+    gap: 30px;
+}
+.action_btn:active
+{
+    scale: 0.95;
+}
+.dropdown_menu {
+    display: none;
+    position: absolute;
+    height: 0;
+    right: auto; 
+    left: 0; 
+    top: 90px;
+    width: 300px;
+    background: rgb(255, 255, 255,0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+  
+.dropdown_menu.open 
+{
+    height: 120px;
+}
+.dropdown_menu li
+{
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropdown_menu li a:hover
+{
+    
+    color:rgb(238, 247, 213) ;
+
+}
+.dropdown_menu .action_btn
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+@media(max-width: 992px)
+{
+    .navbar .links,
+    .navbar .action_btn
+    {
+        display: none;
+    }
+    .navbar .toggle_btn
+    {
+        display: block;
+        position: absolute;
+        top: 30px;
+        left: 8px;
+    }
+    .dropdown_menu
+    {
+        background: rgba(141, 142, 143, 0.822);
+        display: block;
+        
+    }
+}
+@media(max-width: 576px)
+{
+    .dropdown_menu
+    {
+
+        left: 1px;
+        width: unset;
+    }
+}
+  </style>
+</head>
+ 
+<body>
+  <header>
+    <div class="navbar">
+        <div class="logo"><h3>Admin Panel</h3></div>
+        <div class="toggle_btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="links">
+            <li>
+                <a href="/admin_panel">User Credential</a>
+                
+            </li>
+            <li>
+               <a href="/project_list"> <button type="button" class="btn btn-success action_btn">Project Details</button></a>
+            </li>
+        </ul>
+    </div>
+    <div class="dropdown_menu">
+        <ul>
+            <li><a href="#">User Credential</a></li>
+            <li><button type="button" class="btn btn-success action_btn">Project Details</button></li>
+        </ul>
+    </div>
+</header>
+
+<script>
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+    toggleBtn.onclick = function()
+    {
+        dropDownMenu.classList.toggle('open')
+        const isOpen = dropDownMenu.classList.contains('open')
+        toggleBtnIcon.classList = isOpen
+        ? 'fa-solid fa-xmark'
+        : 'fa-solid fa-bars';
+    }
+</script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <h2 style="text-align: center; padding: 20px;">Project List</h2>
+  <i class="fa-sharp fa-solid fa-user-plus"></i>
+    
+  <div class="container">
+    <table class="table table-bordered table-striped table-hover text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>S.No</th>
+          <th>Project Name</th>
+          <th>Manager</th>
+          <th>Resources</th>
+          <th>Gender</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for project in projects %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ project.project_name }}</td>
+          <td>{{ project.manager }}</td>
+          <td>{{ project.resources }}</td>
+          <td>{{ project.male_count }}M, {{ project.female_count }}F</td>
+          <td>
+          <a class="btn btn-primary btn-success" href="{% url 'shia_app:update_project' project.id %}"> Edit </a>      
+          <a class="btn btn-danger" href="{% url 'shia_app:delete_project' project.id %}">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  </div>
+  
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 style="text-align: center;">Project List</h4>
+          <form id="myForm" method="POST">
+            {% csrf_token %}
+            <p>Project Name</p>
+            <input type="text" id="projectName" placeholder="" name="project_name" required>
+            <p>Manager</p>
+            <select id="manager" name="manager" required>
+              <option value="" selected disabled>Select</option>
+              <option value="Amal" name="Amal">Amal</option>
+              <option value="Aravind" name="Aravind">Aravind</option>
+              <option value="Siva Sankar" name="sivasankar">Siva Sankar</option>
+              <option value="Gokul" name="Gokul">Gokul</option>
+            </select>
+            <p>Resources</p>
+            <input type="number" id="resources" name="resources" placeholder="" required>
+            <p>Gender</p>
+            <div class="gender" >
+              <p>Male</p>
+              <input type="number" name="maleCount" id="maleCount" placeholder="" required>
+              <p>Female</p>
+              <input type="number" name="femaleCount" id="femaleCount" placeholder="" required>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+              <button type="button" class="btn btn-primary btn-success" style="background-color: green;" onclick="validateForm()">Submit</button>
+              <a href="/project_list"><button type="button" class="btn btn-danger">Cancel</button></a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function validateForm() {
+      var projectName = document.getElementById("projectName").value;
+      var manager = document.getElementById("manager").value;
+      var resources = document.getElementById("resources").value;
+      var maleCount = document.getElementById("maleCount").value;
+      var femaleCount = document.getElementById("femaleCount").value;
+  
+      if (projectName === "" || manager === "" || resources === "" || maleCount === "" || femaleCount === "") {
+        alert("Please fill the details in all fields.");
+        return;
+      }
+  
+      document.getElementById("myForm").submit();
+    }
+  </script>
+   <div class="backdrop"></div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <script>
+    $(document).ready(function() {
+      $('i.fa-user-plus').click(function() {
+        $('#myModal').modal({
+          backdrop: 'static', 
+          keyboard: false     
+        });
+      });
+      $('.backdrop').click(function(event) {
+                if (event.target === this) {
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>
+

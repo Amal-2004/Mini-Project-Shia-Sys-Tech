@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+i {
+  position: absolute;
+  top: 130px;
+ left:1100px;
+  font-size: 30px;
+  cursor: pointer;
+}
+.modal-content
+ {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  outline: 0;
+}
+
+
+.modal-body
+{
+  padding: 15px;
+}
+.modal-body h4 
+{
+  text-align: center;
+}
+.modal-body p 
+{
+  margin-bottom: 10px;
+}
+.modal-body input[type="text"],
+.modal-body input[type="number"],
+.modal-body select 
+{
+  width: 100%;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+
+
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  
+}
+.btn-custom {
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+.btn-custom:hover {
+  opacity: 0.8;
+}
+
+.modal-body div {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+}
+
+.gender p {
+  margin-right: 10px;
+}
+
+.gender input[type="number"] {
+  width: 100%;
+  margin-right: 10px; 
+}
+
+

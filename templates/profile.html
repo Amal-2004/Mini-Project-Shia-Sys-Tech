@@ -1,0 +1,158 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Profile</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="/dashboard">
+                <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+            </a>
+            <img src="{% static 'images/shia.jpg' %}">
+            <p>Shia Sys Tech</p>
+        </div>
+        <div class="profile">
+            <div class="profile-content">
+                <div class="left-content">
+                   
+                    <label for="profileImageInput">
+                        <input type="file" id="profileImageInput" style="display: none;" disabled>
+                        <img src="{% static 'images/User.png' %}" id="profilePicture" alt="Profile Picture" style="cursor: pointer;">
+                    </label>
+                    <h2 style="font-size: 35px;">Profile</h2>
+                    <p style="margin-top: -30px;">Username</p>
+                    <input type="text" placeholder="Enter Username" id="username" disabled>
+                    <p>E-Mail</p>
+                    <input type="email" value="{{email}}" placeholder="Enter E-Mail"id="email"disabled>
+                    <p>Contact Number</p>
+                    <input type="number"  placeholder="Enter Contact Number" id="mobileno" disabled>
+                    <p>Employee ID</p>
+                    <input type="number"  placeholder="Enter Employee ID" id="emp_id"disabled>
+                </div>
+                <div class="right-content">
+                    <p>Date of Birth</p>
+                    <input type="date" style="margin-bottom: 45px;" id="dob" disabled required>
+                    <p>User type</p>
+                    <input type="radio"  id="superUser" name="userType" disabled>
+                    <label for="superUser">Super User</label><br>
+                    <input type="radio" id="normalUser" name="userType" checked disabled>
+                    <label for="normalUser">Normal User</label>
+                    <p style="margin-top: 30px;">Joining Date</p>
+                    <input type="date" id="join_date"disabled required>
+                </div>
+                <button id="editButton" onclick="toggleEdit()">Edit</button>
+                <button id="saveButton" onclick="savedata()">Save</button>
+            
+            </div>
+      
+        </div>
+    </body>
+    <script>
+        const profile = [];
+        let profileImageBase64 = null; 
+        function toggleEdit() {
+            var inputs = document.getElementsByTagName("input");
+            var editButton = document.getElementById("editButton");
+            var saveButton = document.getElementById("saveButton");
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = !inputs[i].disabled;
+            }
+
+            if (editButton.style.display === "none") {
+                editButton.style.display = "block";
+                saveButton.style.display = "none";
+            } else {
+                editButton.style.display = "none";
+                saveButton.style.display = "block";
+            }
+        }
+        function validateFields() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const mobileno = document.getElementById('mobileno').value;
+            const emp_id = document.getElementById('emp_id').value;
+            const dob = document.getElementById('dob').value;
+            const join_date = document.getElementById('join_date').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const mobileRegex = /^\d{10}$/;
+
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            if (!mobileRegex.test(mobileno)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+            if (username === '' || emp_id === '' || dob === '' || join_date === '') {
+                alert("Please fill in all required fields.");
+                return false;
+            }
+            return true; 
+        }
+        const profilePicture = document.getElementById('profilePicture');
+        const profileImageInput = document.getElementById('profileImageInput');
+
+        profileImageInput.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            if (selectedFile) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profileImageBase64 = e.target.result;
+                    profilePicture.src = profileImageBase64; 
+                };
+                reader.readAsDataURL(selectedFile);
+            }
+        });
+        function savedata() {
+   
+
+    if (!validateFields()) {
+        return;
+    }
+
+    const user_name = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const mobile_no = document.getElementById('mobileno').value;
+    const employee_id = document.getElementById('emp_id').value;
+    const dob = document.getElementById('dob').value;
+    const join_date = document.getElementById('join_date').value;
+    const superUser = document.getElementById('superUser').checked ? "Super User" : "Normal User";
+    if (profileImageBase64) {
+        var base=profileImageBase64;
+        
+    }
+   
+  
+
+
+    
+    $.ajax({
+        type: 'POST',
+        url: '/profile_update',
+        
+        data: {
+            user_names:user_name,emails:email,
+            ph_no:mobile_no,emp_id:employee_id,
+            birth:dob,date:join_date,user_type:superUser,
+            base64:base
+
+        },
+        // Set content type to JSON
+        success: function(data) {
+            console.log("succes :"+data);
+            toggleEdit();
+        },
+        error: function(xhr, status, error) {
+            alert("An error occurred: " + error);
+        }
+    });
+}
+
+    </script>
+</html>

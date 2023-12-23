@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Sign Up</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/signup_style.css' %}">
+    </head>
+    <body>
+        {% block content %}
+        <div class="heading">
+            <h4>Sign Up to Shia</h4>
+        </div>
+        <img src="{% static 'images/shia.jpg' %}" class="user">
+        <div class="loginbox">    
+            
+            <form onsubmit="return validatePassword()" method="POST" 
+            action="http://127.0.0.1:8000/signup/"  action="{% url 'shia_app:signup' %}"
+            autocomplete="off">
+                {% csrf_token %}
+                <span>Username</span>
+                <input type="text" name="username" placeholder="" minlength="3"required >
+                <span>Email</span>
+                <input type="email" name="email" placeholder="" required>
+                <span>Password</span>
+                <input type="password" name="password" placeholder="" minlength="8"><p style="color: red; margin-top: -10px;" id="error-message"></p>
+                <span>Confirm Password</span>
+                <input type="password" name="confirm_password" placeholder=""required minlength="8">
+                <input type="submit" name="submit" value="Sign Up"required>
+            </form>
+            
+        </div>
+        
+        <div class="signin">
+            <form>
+                <span>Already have a account ?</span><a href="/signin/">Sign in</a>
+            </form>
+        </div>
+        <script type="text/javascript">
+            function validatePassword() {
+              var password = document.getElementsByName("password")[0].value;
+              var confirmPassword = document.getElementsByName("confirm_password")[0].value;
+        
+              if (password !== confirmPassword)
+              {
+                document.getElementById("error-message").innerText = "Error: Passwords do not match!";
+                return false;
+              }
+            }
+          </script>
+          <style>.error-message {color: red;}</style>
+         
+
+          {% endblock %}
+    </body>
+</html>

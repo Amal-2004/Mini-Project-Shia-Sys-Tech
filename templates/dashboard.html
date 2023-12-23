@@ -1,0 +1,184 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-Edge">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">        <title>Dashboard</title>
+    </head>
+    <body>
+       <div class="contain">
+            <div class="sidebar">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <div class="user">
+                                <img src="{% static 'images/shia.jpg' %}" alt="">
+                            </div>
+                            <div class="title">Shia Sys Tech</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/admin_panel">
+                            <i class="fa-solid fa-users-rectangle"></i>
+                            <div class="title">User Credential</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-gauge"></i>
+                            <div class="title">Dashboard</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/bulk_email">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <div class="title">Bulk Mail</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/project">
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                            <div class="title">Project Details</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/skill_management">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                            <div class="title">Skill Management</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/edit_project">
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                            <div class="title">Task Assign</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/upload">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <div class="title">File Upload</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/email">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <div class="title">E-Mail</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/project_status">
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                            <div class="title">Project Status</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="main">
+                <div class="top-bar">
+                    
+                   <a href="/profile" style="display:inline-block ;width: min-content;"> <img  src="{% static 'images/User.png' %}"></a>
+                    <a href="#">{{email}}</a>
+                    <button class="logout-button" href="{% url 'shia_app:logout' %}" >
+                        <i class="fas fa-sign-out-alt logout-icon"></i>Logout
+                      </button>
+                </div>
+
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number">{{superuser_count}}</div>
+                            <div class="card-name">Super Users</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-users-gear"></i>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number"> {{totaluser_count}}</div>
+                            <div class="card-name">Total Users</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number"> {{editors_count}} </div>
+                            <div class="card-name">Editors</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-user-pen"></i>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number">{{publishers_count}}</div>
+                            <div class="card-name">Publishers</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number">{{totalproject_count}}</div>
+                            <div class="card-name">Total Projects</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-table-list"></i>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="number">{{totalclient_count}}</div>
+                            <div class="card-name">Total Clients</div>
+                        </div>
+                        <div class="icon-box">
+                            <i class="fa-solid fa-users-between-lines"></i>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="tables">
+                    <div class="cont">
+                        <div class="heading">
+                            <h2>Project Details</h2>
+                        </div>
+                        <table class="appoinment">
+                            <thead>
+                                <td>S.No</td>
+                                <td>Project Name</td>
+                                <td>Manager</td>
+                                <td>Progress</td>
+                                <td>Status</td>
+                            </thead>
+                            <tbody>
+                                {% for project in projects %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ project.project_name }}</td>
+                                    <td>{{ project.manager }}</td>
+                                    <td>
+                                        
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </td>
+                                    <td>Pending</td>
+                                </tr>
+                                {% endfor %}                              
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+       </div>
+       
+    </body>
+</html>

@@ -1,0 +1,122 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Project Upload</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'css/fileup.css' %}">
+        <style>
+           
+            .backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+                display: none;
+                z-index: 9999; /* Make sure the backdrop is on top of everything */
+            }
+
+            /* Style for the file upload container */
+            .file-upload-container {
+                position: absolute;
+                top: 30%;
+                width: 600px;
+                height: 300px;
+                border-radius: 5px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                padding: 20px;
+                text-align: center;
+            }
+            .file-upload-container select{
+                position: absolute;
+                width: 200px;
+                border: 1px solid black;
+                top: 85px;
+                left: 200px;
+            }
+            .file-upload-container input{
+                position: absolute;
+                top: 130px;
+                left: 200px;
+                background-color: #fff;
+            }
+            .file-upload-container button{
+                width: 100px;
+                margin-top: 120px;
+            }
+            
+        </style>
+    </head>
+    <body>
+        
+        <div class="header">
+            <img src="{% static 'images/shia.jpg '%}">
+            <p>Shia Sys Tech</p>
+            <a href="/dashboard">
+                <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+            </a>
+        </div>
+            <div class="backdrop" id="backdrop">
+                <div class="file-upload-container">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <h2>Select a File</h2>
+                    <select name="project_name" required>
+                        <option selected  disabled>Select</option>
+                        <br>
+                        <option>Project</option>
+                        <option>Details</option>
+                    </select>
+                    <input type="file" id="fileUpload" name="file" accept=".txt, .pdf, .docx, .rar"required>
+                    <br>
+                    <button id="submitBtn" class="btn btn-primary btn-success">Submit</button>
+                    <button id="cancelBtn" class="btn btn-danger">Cancel</button>
+                
+                </form>
+                </div>
+            </div>
+            <div class="file-upload">
+                <div class="icon">
+                    <i class="bi bi-box-arrow-left"></i>
+                    <img src="{% static 'images\imgup.jpg' %}"">
+                    <p>Drop your file or <span>browse for file</span></p>
+                    <a href="#" id="fileLink">Click to Select a File</a>
+                </div>   
+            </div>
+    </body>
+    <script>
+        const fileLink = document.getElementById('fileLink');
+        const fileUpload = document.getElementById('fileUpload');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const backdrop = document.getElementById('backdrop');
+        const selectField = document.querySelector('select');
+    
+        fileLink.addEventListener('click', function() {
+            backdrop.style.display = 'block';
+            selectField.selectedIndex = 0; 
+            fileUpload.value = null;
+        });
+    
+        submitBtn.addEventListener('click', function() {
+            const selectedOption = selectField.options[selectField.selectedIndex];
+            const selectedFile = fileUpload.files[0];
+    
+            if (selectedOption.value !== 'Select' && selectedFile) {
+                alert("Uploaded Successfully");
+                backdrop.style.display = 'none';
+            } else {
+                alert("Please select an option and choose a file.");
+            }
+        });
+    
+        cancelBtn.addEventListener('click', function() {
+            backdrop.style.display = 'none';
+        });
+    </script>
+    </html>

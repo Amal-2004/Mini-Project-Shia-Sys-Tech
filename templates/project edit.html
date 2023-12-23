@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project Edit</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/project edit.css' %}">
+</head>
+<body>
+  <div class="header">
+    <a href="/dashboard">
+      <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+    </a>
+    <img src="{% static 'images/shia.jpg' %}">
+    <p>Shia Sys Tech</p>
+  </div>
+
+  <i class="fa fa-user-plus" style="font-size: 24px; cursor: pointer;" id="addIcon"></i>
+
+  <div class="container" style="margin-top: 70px;">
+    <table class="table table-bordered table-striped table-hover text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>S.No</th>
+          <th>Resource Name</th>
+          <th>Task</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for edit in projects %}
+        <tr id="row{{ forloop.counter }}">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ edit.resource_name }}</td>
+          <td>{{ edit.task }}</td>
+          <td>
+          <button type="submit" class="btn btn-primary btn-success" style="background-color: green;" onclick="editRow('{{ forloop.counter }}', '{{ edit.id }}')">Edit</button>
+            <a class="btn btn-danger" href="{% url 'shia_app:delete_edit' edit.id %}">Delete</a>
+
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="modal fade" id="editModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 style="text-align: center;">Edit Project</h4>
+          <form id="editForm" method="POST"  action="{% url 'shia_app:update_edit'%}">
+            {% csrf_token %}
+            <input type="hidden" id="editRowId" name="project_id">
+            <p>Resource Name</p>
+            <input type="text" id="editResourceName" name="resource_name" placeholder="" required>
+            <p>Task</p>
+            <input type="text" id="editTask" name="task" placeholder="" required>
+            <div style="text-align: center; margin-top: 20px;">
+              <button type="submit" class="btn btn-primary btn-success" style="background-color: green;" onclick="updateRow()" >Update</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="addModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 style="text-align: center;">Add Project</h4>
+          <form id="addForm" method="POST">
+            {% csrf_token %}
+            <p>Resource Name</p>
+            <input type="text" name="resource_name" id="addResourceName" placeholder="" required>
+            <p>Task</p>
+            <input type="text" id="addTask" name="task" placeholder="" required>
+            <div style="text-align: center; margin-top: 20px;">
+              <button type="submit" class="btn btn-primary btn-success" style="background-color: green;" >Add</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="backdrop"></div>
+</body>
+<script>
+  var editRowId;
+  function editRow(rowId,idk) {
+    editRowId = rowId;
+    var row = document.getElementById("row" + rowId);
+    var cells = row.getElementsByTagName("td");
+    document.getElementById("editRowId").value = idk;
+    console.log("id varala"+idk)
+    document.getElementById("editResourceName").value = cells[1].textContent;
+    document.getElementById("editTask").value = cells[2].textContent;
+    $('#editModal').modal('show');
+  }
+
+  function updateRow() {
+    if (editRowId) {
+      var resourceName = document.getElementById("editResourceName").value;
+      var task = document.getElementById("editTask").value;
+      var row = document.getElementById("row" + editRowId);
+      var cells = row.getElementsByTagName("td");
+      cells[1].textContent = resourceName;
+      cells[2].textContent = task;
+      $('#editModal').modal('hide');
+      editRowId = null;
+    }
+  }
+  function openAddModal() {
+    $('#addModal').modal('show');
+  }
+
+  function addRow() {
+    var resourceName = document.getElementById("addResourceName").value;
+    var task = document.getElementById("addTask").value;
+    var newRowId = "row" + (document.getElementsByTagName("tr").length + 1);
+    var newRow = document.createElement("tr");
+    newRow.id = newRowId;
+    newRow.innerHTML = "<td>" + (document.getElementsByTagName("tr").length) + "</td>" +
+      "<td>" + resourceName + "</td>" +
+      "<td>" + task + "</td>" +
+      "<td>" +
+      "<button type='button' class='btn btn-success' onclick='editRow(\"" + newRowId + "\")'>Edit</button>&nbsp;" +
+      "<button type='button' class='btn btn-danger' onclick='deleteRow(\"" + newRowId + "\")'>Delete</button>" +
+      "</td>";
+
+    document.querySelector("tbody").appendChild(newRow);
+    document.getElementById("addResourceName").value = "";
+    document.getElementById("addTask").value = "";
+    $('#addModal').modal('hide');
+  }
+  document.getElementById("addIcon").addEventListener("click", openAddModal);
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/update.css' %}">
+</head>
+</head>
+<body>
+    {%block content %}
+    <form id="myForm" method="POST" action="{% url 'shia_app:update_project' project.id %}">
+        {% csrf_token %}
+        <p>Project Name</p>
+        <input type="text" value="{{project.project_name}}" id="projectName" placeholder="" name="project_name" required>
+        <p>Manager</p>
+        <select id="manager" name="manager" required>
+            <option value="" disabled>Select</option>
+            <option value="Amal" {% if project.manager == 'Amal' %}selected{% endif %}>Amal</option>
+            <option value="Aravind" {% if project.manager == 'Aravind' %}selected{% endif %}>Aravind</option>
+            <option value="Siva Sankar" {% if project.manager == 'Siva Sankar' %}selected{% endif %}>Siva Sankar</option>
+            <option value="Gokul" {% if project.manager == 'Gokul' %}selected{% endif %}>Gokul</option>
+        </select>
+        </select>
+        <p>Resources</p>
+        <input type="number" value="{{project.resources}}" id="resources" name="resources" placeholder="" required>
+        <p>Gender</p>
+        <div class="gender" >
+          <p>Male</p>
+          <input type="number" value="{{project.male_count}}" name="maleCount" id="maleCount" placeholder="" required>
+          <p>Female</p>
+          <input type="number" value="{{project.female_count}}" name="femaleCount" id="femaleCount" placeholder="" required>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <input type="submit" value="Update" class="btn btn-primary btn-success">
+          <a href="/project_list"><button type="button" class="btn btn-danger">Cancel</button></a>
+        </div>
+      </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% endblock %}
+</body>
+</html>

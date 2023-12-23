@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Admin Panel</title>
+  <style>
+*
+{
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body
+{
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+li
+{
+    list-style: none;
+}
+li a {
+    text-decoration: none;
+    color: #fff;
+    font-size:22px;
+    font-weight: normal;
+}
+
+li a:hover {
+    text-decoration: none;
+    color: rgb(111, 116, 100);
+}header
+{
+    height: 100px;
+    position: relative;
+    padding: .05px 2rem;
+    background-color: black;
+}
+.navbar {
+    width: 100%;
+    height: 60%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    padding-left:20px;
+    
+}
+.navbar .logo {
+    padding: 30px ;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.navbar .toggle_btn {
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: left;
+    display: none;
+    margin-right: auto; 
+}
+.navbar .links
+{
+    display: flex;
+    
+    gap: 30px;
+}
+.action_btn:active
+{
+    scale: 0.95;
+}
+.dropdown_menu {
+    display: none;
+    position: absolute;
+    height: 0;
+    right: auto; 
+    left: 0; 
+    top: 90px;
+    width: 300px;
+    background: rgb(255, 255, 255,0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+  
+.dropdown_menu.open 
+{
+    height: 120px;
+}
+.dropdown_menu li
+{
+    padding: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropdown_menu li a:hover
+{
+    
+    color:rgb(238, 247, 213) ;
+
+}
+.dropdown_menu .action_btn
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+@media(max-width: 992px)
+{
+    .navbar .links,
+    .navbar .action_btn
+    {
+        display: none;
+    }
+    .navbar .toggle_btn
+    {
+        display: block;
+        position: absolute;
+        top: 30px;
+        left: 8px;
+    }
+    .dropdown_menu
+    {
+        background: rgba(141, 142, 143, 0.822);
+        display: block;
+        
+    }
+    .dropdown_menu i{
+        margin-top: 0;
+        font-size: 30px;
+        margin-right:200px;
+        color:#fff;
+    }
+}
+@media(max-width: 576px)
+{
+    .dropdown_menu
+    {
+
+        left: 1px;
+        width: unset;
+    }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+        <div class="logo"><h3>Admin Panel</h3></div>
+        <div class="toggle_btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="links">
+            <li>
+              <a href="/admin_panel">  <button type="button" class="btn btn-success action_btn">User Credential</button></a>
+            </li>
+            <li>
+                <a href="/project_list">Project Details</a>
+            </li>
+        </ul>
+        
+        <a  href="{% url 'shia_app:logout' %}"  class="fas fa-sign-out-alt" 
+        style="
+        position: absolute;
+        color: #fff;
+        font-size: 35px;
+        right: -50px;
+        top: 30px;
+        text-decoration: none;"></a>
+    </div>
+    <div class="dropdown_menu">
+        <ul>
+            <li><button type="button" class="btn btn-success action_btn">User Credential</button></li>
+            <li><a href="#">Project Details</a></li>
+        </ul>
+        <i class="fa-solid fa-right-from-bracket"></i>
+        
+
+    </div>
+</header>
+
+<script>
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+    toggleBtn.onclick = function()
+    {
+        dropDownMenu.classList.toggle('open')
+        const isOpen = dropDownMenu.classList.contains('open')
+        toggleBtnIcon.classList = isOpen
+        ? 'fa-solid fa-xmark'
+        : 'fa-solid fa-bars';
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <h2 style="text-align: center; padding: 20px;">Admin Panel</h2>
+  <div class="container">
+    <table class="table table-bordered table-striped table-hover text-center">
+      <thead class="thead-dark">
+        <tr>
+          <th>S.No</th>
+          <th>User Name</th>
+          <th>Status</th>
+        
+          
+        </tr>
+      </thead>
+      <tbody>
+        
+        {% for user in users %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ user.username }}</td>  
+                  <td>
+                    
+                      {% if user.status %}
+                        <span class="badge badge-success">Super User</span>
+                        <form action="{% url 'shia_app:admin_panel' %}" method="POST" style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="username" value="{{ user.username }}">
+                          <input type="hidden" name="action" value="depromote">
+                          <button type="submit" class="btn btn-warning">Depromote</button>
+                        </form>
+                      {% else %}
+                        <span class="badge badge-secondary">Not SuperUser</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <form action="{% url 'shia_app:admin_panel' %}" method="POST" style="display: inline;">
+                          {% csrf_token %}
+                          <input type="hidden" name="username" value="{{ user.username }}">
+                          <input type="hidden" name="action" value="make_admin">
+                          <button type="submit" class="btn btn-success">Make SuperUser</button>
+                        </form>
+                      {% endif %}
+                    
+                  </td> 
+                </tr>
+                {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  
+</body>
+</html>

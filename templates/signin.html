@@ -1,0 +1,51 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta charset="utf-8">
+        <title>Sign in</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/signin_style.css' %}">
+        
+    </head>
+
+    <body>
+        
+        
+        
+        {% block content %}
+        <div class="hea">
+        
+            <h4>Sign in to Shia</h4>
+        </div>
+        <img src="{% static 'images/shia.jpg' %}" class="user">
+        <div class="loginbox">    
+          
+            <form method="POST" action="http://127.0.0.1:8000/signin/" autocomplete="off">
+                
+            {% csrf_token %}
+                <span>Email</span>
+                <input type="email" id="email"name="email" placeholder=""required>
+                <span>Password</span><a href="#">Forgot Password?</a>
+                <input type="password" name="password" placeholder=""required>
+                
+            {% if error %}
+            <p class="error-message" style="color: red;">{{ error }}</p>
+            {% endif %}
+            <input type="submit" name="submit" value="Sign in"required>
+                
+            </form>
+        </div>
+        
+        <div class="signup">
+            <form>
+                <span>New to Shia ?</span><a href="/signup/">Sign Up</a>
+            </form>
+        </div>
+        
+        
+        {% endblock %}
+        
+    </body>
+</html>

@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static 'css/project status.css' %}">
+</head>
+<body>
+<div class="header">
+    <img src="{% static 'images/shia.jpg' %}">
+    <p>Shia Sys Tech</p>
+    <a href="/dashboard">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+    </a>
+</div>
+<div class="content">
+    <h2>Project</h2><br>
+    <p>Saas Management System</p>
+    <img src="{% static 'images/User.png' %}">
+    <a href="#">user@gmail.com</a>
+</div>
+<div class="line"></div>
+<div class="datas">
+    <table>
+        <thead>
+        <tr>
+            <th>S.No</th>
+            <th>Status</th>
+            <th>Progress</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for status_var in projects %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ status_var.Status }}</td>
+            <td>{{ status_var.Progress }}</td>
+            <td>
+                <a class="btn btn-primary btn-success" onclick="showEditForm('{{forloop.counter}}','{{ status_var.Status }}', '{{ status_var.Progress }}')">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="modal" id="editModal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Status and Progress</h5>
+            </div>
+            <form id="myForm" method="POST" action="{% url 'shia_app:edit_status' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    
+                    <p>Progress</p>
+                    <input type="hidden" id="ID" name="id" >
+                    <input type="text" id="progressInput" name="progress" placeholder="" required>
+                    <p>Status</p>
+                    <input type="text" id="statusInput" name="status" placeholder="" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-success" style="background-color: green;" >Submit</button>
+                    <button type="button" class="btn btn-danger" onclick="hideEditForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="backdrop" style="display: none;"></div>
+<script>
+    function showEditForm(id,status, progress) {
+        document.getElementById("ID").value=id;
+        document.getElementById("statusInput").value = status;
+        document.getElementById("progressInput").value = progress;
+        document.getElementById("editModal").style.display = "block";
+        document.querySelector(".backdrop").style.display = "block";
+    }
+
+    function hideEditForm() {
+        document.getElementById("editModal").style.display = "none";
+        document.querySelector(".backdrop").style.display = "none";
+    }
+
+    function validateForm() {
+        var progress = document.getElementById("progressInput").value;
+        var status = document.getElementById("statusInput").value;
+
+        if (progress === "" || status === "") {
+            alert("Please fill in all fields.");
+            return false;
+        }
+
+        hideEditForm();
+        return true;
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

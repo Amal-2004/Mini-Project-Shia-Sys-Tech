@@ -1,0 +1,78 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Skill Management</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'css/skill management.css' %}">
+    </head>
+    <body>
+        <div class="header">
+            <img src="{% static 'images/shia.jpg' %}">
+            <p>Shia Sys Tech</p>
+            <h2>Skill Management</h2>
+            <a href="/dashboard">
+                <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>Back
+            </a>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Search" class="search-bar">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="books" id="book-grid">
+            <!-- Book cards will be dynamically added here -->
+        </div>
+    </body>
+    <script>
+        const searchBar = document.querySelector('.search-bar');
+        const searchButton = document.querySelector('.search-button');
+        const bookGrid = document.getElementById('book-grid');
+
+        searchButton.addEventListener('click', performSearch);
+
+        function performSearch() {
+            const searchTerm = searchBar.value.trim();
+            bookGrid.innerHTML = '';
+
+            fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchTerm}`)
+                .then(response => response.json())
+                .then(data => {
+                    const books = data.items;
+
+                    books.forEach(book => {
+                        const bookCard = createBookCard(book);
+                        bookGrid.appendChild(bookCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        function createBookCard(book) {
+            const bookCard = document.createElement('div');
+            bookCard.classList.add('book-card');
+
+            const title = book.volumeInfo.title;
+            const author = book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author';
+            const imageUrl = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'placeholder.jpg';
+
+            bookCard.innerHTML = `
+                <img src="${imageUrl}" alt="Book Cover">
+                <p class="author">${author}</p>
+                <a class="read-more" style="text-decoration:none" href="${book.volumeInfo.infoLink}" target="_blank">Read More</a>
+            `;
+            return bookCard;
+        }
+    </script>
+</html>
+
+
+
+
+
+

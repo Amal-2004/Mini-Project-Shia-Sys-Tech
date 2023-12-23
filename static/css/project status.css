@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background-color: none;
+}
+
+.header
+{
+    width: 100%;
+    height: 80px;
+    position: relative;
+    padding-top: 10px;
+    background-color: black;
+}
+.header img {
+    position: absolute;
+    top: 16px;
+    margin-left:30px;
+    width: 50px;
+    border-radius: 50%;
+    z-index: 1; 
+  }
+  .header p {
+    position: absolute;
+    top: 22px;
+    font-size: 26px;
+    margin-left: 95px;
+    color: #fff;    
+    z-index: 1;
+  }
+  .header a {
+    position: absolute;
+    font-size: 25px;
+    margin-left: 1150px;
+    top: 22px;
+    color: #fff;
+    text-decoration: none;
+    z-index: 2; 
+  }
+  
+  .header i {
+    position: relative;
+    top: 2px;
+    margin-left: 50px;
+    margin-right: -60px;
+    font-size: 30px;
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    z-index: 1; 
+  }
+ .content h2{
+    position: absolute;
+    top: 95px;
+    font-size: 20px;
+    left: 25px;
+    font-weight: 600;
+ }
+ .content p{
+    position: absolute;
+    top: 125px;
+    font-size: 18px;
+    left: 25px;
+ }
+ .content img{
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid black;
+    width: 3.5%;
+    top: 95px;
+    right: 230px;
+ }
+ .content a{
+    position: absolute;
+    top: 105px;
+    right: 50px;
+    font-size: 19px;
+    font-weight: 800;
+    text-decoration: none;
+ }
+ .line {
+    position: absolute;
+    top: 165px;
+    border-top: 2px solid #000; 
+    width: 100%; 
+    margin: 0 auto;
+}
+.datas table{
+    position: absolute;
+    top: 200px;
+    width: 60%;
+    left: 280px;
+    text-align: center;
+}
+table,th{
+    background-color: black;
+    color: #fff;
+  }
+  table,td {
+    background-color: #fff;
+    border: 2px solid #0e0d0d;
+    text-align: center;
+    color: #0a0909;
+  }
+  
+  th, td {
+    padding: 4px;
+    text-align: center;
+    
+  }
+  td a{
+    font-size: 16px;
+    color: green;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  td a:hover{
+    color: rgb(14, 71, 52);
+  }
+  td a span{
+    text-decoration: none;
+  }
